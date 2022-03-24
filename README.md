@@ -16,12 +16,12 @@ https://chat.example.com/site_admin/ssoprovider/authorize
 
 Token Endpoint URL
 ```
-https://devmysql.livehelperchat.com/site_admin/ssoprovider/token
+https://chat.example.com/site_admin/ssoprovider/token
 ```
 
 User Info Endpoint URL
 ```
-https://devmysql.livehelperchat.com/site_admin/ssoprovider/userinfo
+https://chat.example.com/site_admin/ssoprovider/userinfo
 ```
 
 ID Claim
@@ -66,5 +66,5 @@ openssl rsa -in private.key -pubout > public.key
 ## https://js.wiki integration
 
 At this moment goal of this extension was to have SSO login directly to https://js.wiki in Live Helper Chat. Configuration screenshot.
-
-![image info](/LiveHelperChat/ssoprovider/blob/main/doc/js.wiki.png?raw=true)
+https://github.com/LiveHelperChat/ssoprovider/blob/main/doc/js.wiki.png?raw=true
+![image info](https://github.com/LiveHelperChat/ssoprovider/blob/main/doc/js.wiki.png?raw=true)
