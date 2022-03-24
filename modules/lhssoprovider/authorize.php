@@ -87,3 +87,5 @@ $app->get('/site_admin/ssoprovider/authorize',function (ServerRequestInterface $
 });
 
 $app->run();
+exit;
+?>

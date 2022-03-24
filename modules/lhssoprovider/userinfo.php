@@ -60,3 +60,5 @@ $app->get(
 );
 
 $app->run();
+exit;
+?>

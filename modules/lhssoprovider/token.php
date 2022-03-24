@@ -71,3 +71,5 @@ $app->post('/site_admin/ssoprovider/token', function (ServerRequestInterface $re
 });
 
 $app->run();
+exit;
+?>
