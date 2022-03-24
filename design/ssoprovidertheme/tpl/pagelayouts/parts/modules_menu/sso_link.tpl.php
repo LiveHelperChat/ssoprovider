@@ -1,0 +1,2 @@
+<?php $settingsSSO = include 'extension/ssoprovider/settings/settings.ini.php'; ?>
+<li class="nav-item"><a class="nav-link" href="<?php echo erLhcoreClassDesign::baseurl('ssoprovider/authorize')?><?php echo $settingsSSO['url_redirect']?>"><i class="material-icons">login</i><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('ssoprovider/admin','SSO Login');?></a></li>
