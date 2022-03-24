@@ -66,5 +66,5 @@ openssl rsa -in private.key -pubout > public.key
 ## https://js.wiki integration
 
 At this moment goal of this extension was to have SSO login directly to https://js.wiki in Live Helper Chat. Configuration screenshot.
-https://github.com/LiveHelperChat/ssoprovider/blob/main/doc/js.wiki.png?raw=true
+
 ![image info](https://github.com/LiveHelperChat/ssoprovider/blob/main/doc/js.wiki.png?raw=true)
