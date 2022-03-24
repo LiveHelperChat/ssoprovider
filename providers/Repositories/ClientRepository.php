@@ -42,7 +42,7 @@ class ClientRepository implements ClientRepositoryInterface
         $settings = include 'extension/ssoprovider/settings/settings.ini.php';
 
         $clients = [
-            'live_helper_chat' => [
+            $settings['client_id'] => [
                 'secret'          => \password_hash($settings['client_secret'], PASSWORD_BCRYPT),
                 'name'            => $settings['client_name'],
                 'redirect_uri'    => $settings['redirect_url'],
