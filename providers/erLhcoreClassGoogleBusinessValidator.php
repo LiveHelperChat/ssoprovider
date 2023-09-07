@@ -1,7 +1,7 @@
 <?php
 
 namespace LiveHelperChatExtension\googlebusinessmessage\providers;
-
+#[\AllowDynamicProperties]
 class erLhcoreClassGoogleBusinessValidator
 {
     public static function validateAgent(& $item)
