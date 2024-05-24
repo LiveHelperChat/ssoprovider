@@ -60,7 +60,7 @@ openssl rsa -in private.key -pubout > public.key
 ```
 * Put generated files content in `private_key` and `public_key` content.
 * Put your preferred `client_id`, `client_secret`, `client_name` values.
-* Modify `url_redirect` value. It's an append URL to the left menu. Given example is an example of the integration with js.wiki
+* Modify `url_login` value. It's full login URL for third party.
 * Modify `redirect_url` value. This value was taken from js.wiki back office.
 
 ## https://js.wiki integration
