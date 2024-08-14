@@ -51,7 +51,7 @@ email
     ),
 ...
 ```
-* Being in `extension/ssoprovider` do `composer install`
+* Make sure your main composer.json file contains https://github.com/LiveHelperChat/livehelperchat/blob/c42935aef767c3d7ab9ec87cd25bce7b270937e8/lhc_web/composer.json#L80-L81 and dependencies are installed.
 * Copy `extension/ssoprovider/settings/settings.ini.default.php` to `extension/ssoprovider/settings/settings.ini.php`
 * Generate private and public keys
 ```shell
