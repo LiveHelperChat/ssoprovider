@@ -19,11 +19,6 @@ class AccessTokenRepository implements AccessTokenRepositoryInterface
     /**
      * {@inheritdoc}
      */
-    /*
-     *
-     *https://github.com/spring-attic/spring-security-oauth/blob/main/spring-security-oauth2/src/test/resources/schema.sql
-     * https://admin.qu.lt/sqlbud/?username=root&db=pavlo_dice&table=oauth_access_tokens
-     * */
     public function persistNewAccessToken(AccessTokenEntityInterface $accessTokenEntity)
     {
         // https://oauth2.thephpleague.com/access-token-repository-interface/
@@ -32,7 +27,6 @@ class AccessTokenRepository implements AccessTokenRepositoryInterface
         \erLhcoreClassLog::write(print_r($accessTokenEntity->getUserIdentifier(),true));
         \erLhcoreClassLog::write(print_r($accessTokenEntity->getClient()->getIdentifier(),true));
         \erLhcoreClassLog::write(print_r('persistNewAccessToken - ' . $accessTokenEntity->getIdentifier(),true));*/
-
 
         $accessToken = new \LiveHelperChatExtension\ssoprovider\providers\erLhcoreClassModelOAuthAccessToken();
         $accessToken->id = $accessTokenEntity->getIdentifier();
@@ -49,8 +43,6 @@ class AccessTokenRepository implements AccessTokenRepositoryInterface
      */
     public function revokeAccessToken($tokenId)
     {
-        // \erLhcoreClassLog::write(print_r('revokeAccessToken',true));
-
         $accessToken = \LiveHelperChatExtension\ssoprovider\providers\erLhcoreClassModelOAuthAccessToken::fetch($tokenId);
 
         if (is_object($accessToken)) {
@@ -66,8 +58,6 @@ class AccessTokenRepository implements AccessTokenRepositoryInterface
      */
     public function isAccessTokenRevoked($tokenId)
     {
-        // \erLhcoreClassLog::write(print_r('isAccessTokenRevoked - ' . $tokenId,true));
-
         $accessToken = \LiveHelperChatExtension\ssoprovider\providers\erLhcoreClassModelOAuthAccessToken::findOne(['filter' => ['id' => $tokenId]]);
 
         // Refresh token does not exists
