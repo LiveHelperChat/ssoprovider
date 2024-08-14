@@ -1,7 +1,6 @@
 <?php
 
 namespace LiveHelperChatExtension\ssoprovider\providers;
-#[\AllowDynamicProperties]
 class erLhcoreClassModelOAuthAccessToken
 {
     use \erLhcoreClassDBTrait;
@@ -40,27 +39,6 @@ class erLhcoreClassModelOAuthAccessToken
     public function __toString()
     {
         return $this->name;
-    }
-
-    public function __get($var)
-    {
-        switch ($var) {
-
-            case 'department':
-                $this->department = null;
-                if ($this->dep_id > 0) {
-                    try {
-                        $this->department = \erLhcoreClassModelDepartament::fetch($this->dep_id,true);
-                    } catch (\Exception $e) {
-
-                    }
-                }
-                return $this->department;
-
-            default:
-                ;
-                break;
-        }
     }
 
     public $id = null;

@@ -33,8 +33,6 @@ class RefreshTokenRepository implements RefreshTokenRepositoryInterface
      */
     public function revokeRefreshToken($tokenId)
     {
-        // \erLhcoreClassLog::write(print_r("revokeRefreshToken - " . $tokenId,true));
-
         $refreshToken = \LiveHelperChatExtension\ssoprovider\providers\erLhcoreClassModelOAuthRefreshToken::fetch($tokenId);
 
         if (is_object($refreshToken)) {
