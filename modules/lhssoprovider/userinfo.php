@@ -1,7 +1,5 @@
 <?php
 
-include 'extension/ssoprovider/vendor/autoload.php';
-
 use League\OAuth2\Server\ResourceServer;
 use LiveHelperChatExtension\ssoprovider\providers\Repositories\AccessTokenRepository;
 use Psr\Http\Message\ResponseInterface;

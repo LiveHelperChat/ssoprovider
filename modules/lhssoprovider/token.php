@@ -1,10 +1,9 @@
 <?php
 
-include 'extension/ssoprovider/vendor/autoload.php';
-
 use Laminas\Diactoros\Stream;
 use League\OAuth2\Server\AuthorizationServer;
 use League\OAuth2\Server\Exception\OAuthServerException;
+use League\OAuth2\Server\Grant\RefreshTokenGrant;
 use League\OAuth2\Server\Grant\AuthCodeGrant;
 use LiveHelperChatExtension\ssoprovider\providers\Entities\UserEntity;
 use LiveHelperChatExtension\ssoprovider\providers\Repositories\AccessTokenRepository;
@@ -25,12 +24,12 @@ $app = new App([
         $clientRepository = new ClientRepository();
         $scopeRepository = new ScopeRepository();
         $accessTokenRepository = new AccessTokenRepository();
-        $authCodeRepository = new AuthCodeRepository();
         $refreshTokenRepository = new RefreshTokenRepository();
+        $authCodeRepository = new AuthCodeRepository();
+        $settingsList = include 'extension/ssoprovider/settings/settings.ini.php';
 
-        $settings = include 'extension/ssoprovider/settings/settings.ini.php';
-
-        $privateKeyPath = $settings['private_key'];
+        $settings = $settingsList[$_POST['client_id']];
+        $privateKeyPath = $settingsList['private_key'];
 
         // Setup the authorization server
         $server = new AuthorizationServer(
@@ -39,6 +38,14 @@ $app = new App([
             $scopeRepository,
             $privateKeyPath,
             $settings['client_secret']
+        );
+
+        // Enable the refresh token grant on the server
+        $grant = new RefreshTokenGrant($refreshTokenRepository);
+        $grant->setRefreshTokenTTL(new DateInterval('P1M')); // The refresh token will expire in 1 month
+        $server->enableGrantType(
+            $grant,
+            new DateInterval('PT1H') // The new access token will expire after 1 hour
         );
 
         // Enable the authentication code grant on the server with a token TTL of 1 hour
@@ -58,7 +65,6 @@ $app = new App([
 $app->post('/site_admin/ssoprovider/token', function (ServerRequestInterface $request, ResponseInterface $response) use ($app) {
     /* @var \League\OAuth2\Server\AuthorizationServer $server */
     $server = $app->getContainer()->get(AuthorizationServer::class);
-
     try {
         return $server->respondToAccessTokenRequest($request, $response);
     } catch (OAuthServerException $exception) {
