@@ -1,7 +1,5 @@
 <?php
 
-include 'extension/ssoprovider/vendor/autoload.php';
-
 use Laminas\Diactoros\Stream;
 use League\OAuth2\Server\AuthorizationServer;
 use League\OAuth2\Server\Exception\OAuthServerException;
@@ -16,6 +14,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\App;
 
+
 $app = new App([
     'settings'    => [
         'displayErrorDetails' => true,
@@ -28,9 +27,10 @@ $app = new App([
         $authCodeRepository = new AuthCodeRepository();
         $refreshTokenRepository = new RefreshTokenRepository();
 
-        $settings = include 'extension/ssoprovider/settings/settings.ini.php';
+        $settingsList = include 'extension/ssoprovider/settings/settings.ini.php';
+        $settings = $settingsList[$_GET['client_id']];
 
-        $privateKeyPath = $settings['private_key'];
+        $privateKeyPath = $settingsList['private_key'];
 
         // Setup the authorization server
         $server = new AuthorizationServer(

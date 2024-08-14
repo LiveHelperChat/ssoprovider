@@ -21,6 +21,11 @@ class RefreshTokenRepository implements RefreshTokenRepositoryInterface
     public function persistNewRefreshToken(RefreshTokenEntityInterface $refreshTokenEntity)
     {
         // Some logic to persist the refresh token in a database
+        $accessToken = new \LiveHelperChatExtension\ssoprovider\providers\erLhcoreClassModelOAuthRefreshToken();
+        $accessToken->id = $refreshTokenEntity->getIdentifier();
+        $accessToken->access_token_id = $refreshTokenEntity->getAccessToken()->getIdentifier();
+        $accessToken->expires_at = $refreshTokenEntity->getExpiryDateTime()->getTimestamp();
+        $accessToken->saveThis();
     }
 
     /**
@@ -28,6 +33,15 @@ class RefreshTokenRepository implements RefreshTokenRepositoryInterface
      */
     public function revokeRefreshToken($tokenId)
     {
+        // \erLhcoreClassLog::write(print_r("revokeRefreshToken - " . $tokenId,true));
+
+        $refreshToken = \LiveHelperChatExtension\ssoprovider\providers\erLhcoreClassModelOAuthRefreshToken::fetch($tokenId);
+
+        if (is_object($refreshToken)) {
+            $refreshToken->revoked = 1;
+            $refreshToken->saveThis();
+        }
+
         // Some logic to revoke the refresh token in a database
     }
 
@@ -36,7 +50,14 @@ class RefreshTokenRepository implements RefreshTokenRepositoryInterface
      */
     public function isRefreshTokenRevoked($tokenId)
     {
-        return false; // The refresh token has not been revoked
+        $refreshToken = \LiveHelperChatExtension\ssoprovider\providers\erLhcoreClassModelOAuthRefreshToken::findOne(['filter' => ['id' => $tokenId]]);
+
+        // Refresh token does not exists
+        if (!is_object($refreshToken)) {
+            return true;
+        }
+
+        return !($refreshToken->revoked === 0);
     }
 
     /**

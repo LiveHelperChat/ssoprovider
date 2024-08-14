@@ -22,10 +22,10 @@ class ClientRepository implements ClientRepositoryInterface
      */
     public function getClientEntity($clientIdentifier)
     {
-        $settings = include 'extension/ssoprovider/settings/settings.ini.php';
+        $settingsList = include 'extension/ssoprovider/settings/settings.ini.php';
+        $settings = $settingsList[$clientIdentifier];
 
         $client = new ClientEntity();
-
         $client->setIdentifier($clientIdentifier);
         $client->setName($settings['client_name']);
         $client->setRedirectUri($settings['redirect_url']);
@@ -39,7 +39,8 @@ class ClientRepository implements ClientRepositoryInterface
      */
     public function validateClient($clientIdentifier, $clientSecret, $grantType)
     {
-        $settings = include 'extension/ssoprovider/settings/settings.ini.php';
+        $settingsList = include 'extension/ssoprovider/settings/settings.ini.php';
+        $settings = $settingsList[$clientIdentifier];
 
         $clients = [
             $settings['client_id'] => [

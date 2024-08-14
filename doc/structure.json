@@ -1,0 +1,48 @@
+{
+  "tables": {
+    "sso_provider_oauth_access_tokens": [
+      {
+        "field": "id",
+        "type": "varchar(100)",
+        "null": "NO",
+        "key": "PRI",
+        "default": null,
+        "extra": ""
+      }
+    ],
+    "sso_provider_oauth_auth_codes": [
+      {
+        "field": "id",
+        "type": "varchar(100)",
+        "null": "NO",
+        "key": "PRI",
+        "default": null,
+        "extra": ""
+      }
+    ],
+    "sso_provider_oauth_refresh_tokens": [
+      {
+        "field": "id",
+        "type": "varchar(100)",
+        "null": "NO",
+        "key": "PRI",
+        "default": null,
+        "extra": ""
+      }
+    ]
+  },
+  "tables_data": {    },
+  "tables_data_identifier": {    },
+  "tables_indexes" : {
+    "lhc_google_business_agent" : {
+      "new" : {
+      },
+      "old" : []
+    }
+  },
+  "tables_create": {
+    "sso_provider_oauth_auth_codes": "CREATE TABLE `sso_provider_oauth_auth_codes` (\n  `id` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,\n  `user_id` bigint(20) NOT NULL,\n  `client_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,\n  `scopes` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,\n  `revoked` tinyint(1) NOT NULL,\n  `expires_at` bigint(20) unsigned DEFAULT NULL,\n  PRIMARY KEY (`id`)\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+    "sso_provider_oauth_refresh_tokens" : "CREATE TABLE `sso_provider_oauth_refresh_tokens` (\n  `id` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,\n  `access_token_id` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,\n  `revoked` tinyint(1) NOT NULL,\n  `expires_at` bigint(20) DEFAULT NULL,\n  PRIMARY KEY (`id`),\n  KEY `oauth_refresh_tokens_access_token_id_index` (`access_token_id`)\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci\n",
+    "sso_provider_oauth_access_tokens" : "CREATE TABLE `sso_provider_oauth_access_tokens` (\n  `id` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,\n  `user_id` bigint(20) DEFAULT NULL,\n  `client_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,\n  `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,\n  `scopes` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,\n  `revoked` tinyint(1) NOT NULL,\n  `created_at` bigint(20) DEFAULT NULL,\n  `updated_at` bigint(20) DEFAULT NULL,\n  `expires_at` bigint(20) DEFAULT NULL,\n  PRIMARY KEY (`id`),\n  KEY `oauth_access_tokens_user_id_index` (`user_id`)\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci\n"
+  }
+}
