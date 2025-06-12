@@ -5,34 +5,25 @@ use LiveHelperChatExtension\ssoprovider\providers\Repositories\AccessTokenReposi
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\App;
+use Slim\Factory\AppFactory;
 
-$app = new App([
-    // Add the resource server to the DI container
-    ResourceServer::class => function () {
+$settings = include 'extension/ssoprovider/settings/settings.ini.php';
 
-        $settings = include 'extension/ssoprovider/settings/settings.ini.php';
-
-        $server = new ResourceServer(
-            new AccessTokenRepository(),// instance of AccessTokenRepositoryInterface
-            $settings['public_key']     // the authorization server's public key
-        );
-
-        return $server;
-    },
-]);
-
-// Add the resource server middleware which will intercept and validate requests
-$app->add(
-    new \League\OAuth2\Server\Middleware\ResourceServerMiddleware(
-        $app->getContainer()->get(ResourceServer::class)
-    )
+$resourceServer = new ResourceServer(
+    new AccessTokenRepository(),// instance of AccessTokenRepositoryInterface
+    $settings['public_key']     // the authorization server's public key
 );
+
+$app = AppFactory::create();
 
 // An example endpoint secured with OAuth 2.0
 $app->get(
     '/site_admin/ssoprovider/userinfo',
-    function (ServerRequestInterface $request, ResponseInterface $response) use ($app) {
+    function (ServerRequestInterface $request, ResponseInterface $response) use ($resourceServer) {
         try {
+            // Manually validate the request using the resource server
+            $request = $resourceServer->validateAuthenticatedRequest($request);
+            
             $user = erLhcoreClassModelUser::fetch($request->getAttribute('oauth_user_id'));
 
             if (!($user instanceof erLhcoreClassModelUser)) {
@@ -50,9 +41,8 @@ $app->get(
             return $response->withStatus(200);
 
         } catch (\Exception $exception) {
-            $body = new Stream('php://temp', 'r+');
-            $body->write($exception->getMessage());
-            return $response->withStatus(500)->withBody($body);
+            $response->getBody()->write($exception->getMessage());
+            return $response->withStatus(500);
         }
     }
 );
